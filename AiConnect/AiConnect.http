@@ -1,0 +1,6 @@
+@AiConnect_HostAddress = http://localhost:5004
+
+GET {{AiConnect_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
