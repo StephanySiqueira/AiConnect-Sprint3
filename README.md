@@ -54,4 +54,53 @@ A arquitetura monolítica foi escolhida para este projeto, onde todos os compone
 1. Clone o repositório:
    ```bash
    git clone https://github.com/seuprojeto/aiconnect-crm-api.git
+   
+2. Abra o projeto no Visual Studio ou no seu editor de código preferido.
 
+3. Configure a string de conexão com o banco de dados Oracle no arquivo `appsettings.json`:
+   ```json
+   {
+     "ConnectionStrings": {
+       "OracleConnection": "Data Source=seubancodedados;User Id=seuusuario;Password=suasenha;"
+     }
+   }
+4. Restaure as dependências do projeto:
+   ```bash
+   dotnet restore
+   
+5. Rode as migrações para criar o banco de dados:
+    ```bash
+    dotnet ef database update
+
+6. Execute a API:
+   ```bash
+    dotnet run
+
+7. Acesse a documentação do Swagger para explorar os endpoints disponíveis:
+   - URL padrão: http://localhost:5000/swagger/index.html
+
+## 4. Relacionamentos de Entidades
+
+### Relação entre Cliente, Lead e Interação:
+- **Lead**: Cada lead deve estar associado a um **Cliente** existente. O campo `ClienteId` no lead indica essa relação.
+  
+- **Interação**: Cada interação deve estar associada a um **Cliente** e a um **Lead**. O campo `ClienteId` na interação referencia o cliente, e o campo `LeadId` referencia o lead.
+
+### Regras de Relacionamento:
+1. **Lead sem Cliente**: Não é possível criar um lead sem um cliente válido. Se o `ClienteId` não existir, a API retornará o erro: **"ERRO DE REGISTRO DE ID - CHAVE MÃE VIOLADA"**.
+   
+2. **Interação sem Cliente e Lead**: Não é possível criar uma interação se tanto o `ClienteId` quanto o `LeadId` forem inválidos ou inexistentes. Nesse caso, a API também retornará o erro: **"ERRO DE REGISTRO DE ID - CHAVE MÃE VIOLADA"**.
+   
+3. **Interação com Cliente Válido e Lead Inválido**: Se o cliente existir, mas o lead não for encontrado, a interação falhará e o erro **"ERRO DE REGISTRO DE ID - CHAVE MÃE VIOLADA"** será retornado.
+   
+4. **Interação com Cliente Inválido e Lead Válido**: Se o lead existir, mas o cliente não for encontrado, a interação falhará com a mesma mensagem de erro.
+
+---
+
+## 5. Membros do Grupo
+
+- **Stephany Siqueira** RM: 98258
+- **Camila Dos Santos Cunha** RM: 551785
+- **Guilherme Castro** RM: 99624
+- **Thiemi Hiratani Favaro** RM: 551478
+- **Ana Clara Rocha de Oliveira** RM: 550110
